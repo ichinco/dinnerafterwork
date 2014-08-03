@@ -11,7 +11,67 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803165214) do
+ActiveRecord::Schema.define(version: 20140803170551) do
+
+  create_table "comments", force: true do |t|
+    t.string   "description"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+
+  create_table "ingredients", force: true do |t|
+    t.string   "name"
+    t.string   "amount"
+    t.string   "unit"
+    t.integer  "order"
+    t.integer  "recipes_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ingredients", ["recipes_id"], name: "index_ingredients_on_recipes_id"
+
+  create_table "recipe_tags", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "recipe_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recipe_tags", ["recipe_id"], name: "index_recipe_tags_on_recipe_id"
+  add_index "recipe_tags", ["tag_id"], name: "index_recipe_tags_on_tag_id"
+  add_index "recipe_tags", ["user_id"], name: "index_recipe_tags_on_user_id"
+
+  create_table "recipes", force: true do |t|
+    t.string   "name"
+    t.integer  "users_id"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recipes", ["users_id"], name: "index_recipes_on_users_id"
+
+  create_table "steps", force: true do |t|
+    t.string   "summary"
+    t.string   "description"
+    t.integer  "order"
+    t.integer  "recipe_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "steps", ["recipe_id"], name: "index_steps_on_recipe_id"
+
+  create_table "tags", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
